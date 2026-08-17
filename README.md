@@ -1,23 +1,23 @@
 # Charge Guard
 
-Sysmodule и оверлей для Nintendo Switch (Atmosphère), ограничивающие максимальный уровень заряда батареи.
+Sysmodule and overlay for Nintendo Switch (Atmosphere) that limit the maximum battery charge level.
 
-## Возможности
+## Features
 
-- Ограничение заряда: 80%, 85%, 90%, 95%, 100%
-- Настройка через оверлей (Ultrahand / Tesla)
-- Автоматический контроль в фоне (sysmodule)
-- Автозапуск при загрузке консоли
+- Charge limit: 80%, 85%, 90%, 95%, 100%
+- Configuration via overlay
+- Automatic background control (sysmodule)
+- Auto-start on console boot
 
-## Установка
+## Installation
 
-1. Собери проект:
+1. Build the project:
 
 ```bash
 bash build_all.sh
 ```
 
-2. Скопируй содержимое `out/` в корень SD-карты:
+2. Copy the contents of `out/` to the root of your SD card:
 
 ```
 SD:/
@@ -28,36 +28,37 @@ SD:/
 └── switch/.overlays/ChargeGuard.ovl
 ```
 
-3. Перезагрузи консоль.
+3. Reboot your console.
 
-## Использование
+## Usage
 
-- Открой меню оверлея: **ZL + ZR + ↓** (или через Ultrahand)
-- Выбери нужный лимит скроллом
-- Sysmodule автоматически применяет ограничение в фоне
+- Open the overlay menu
+- Open Charge Guard
+- Select the desired limit with the scroll bar
+- The sysmodule automatically applies the limit in the background
 
-## Структура проекта
+## Project Structure
 
 ```
-├── build_all.sh              Сборка проекта
+├── build_all.sh              Build script
 ├── overlay/
-│   ├── Makefile              Сборка оверлея
-│   ├── source/main.cpp       Интерфейс оверлея
-│   └── libs/libultrahand/    Tesla / Ultrahand фреймворк
+│   ├── Makefile              Overlay build file
+│   ├── source/main.cpp       Overlay UI
+│   └── libs/libtesla/        Tesla framework
 ├── sysmodule/
-│   ├── Makefile              Сборка sysmodule
-│   ├── source/main.c         Фоновый процесс
-│   └── sysmodule.json        NPDM конфигурация
+│   ├── Makefile              Sysmodule build file
+│   ├── source/main.c         Background process
+│   └── sysmodule.json        NPDM configuration
 ```
 
-## Требования
+## Requirements
 
 - [devkitPro](https://devkitpro.org/) (devkitA64 + libnx)
-- Atmosphère CFW на Switch
-- Ultrahand Overlay или Tesla Menu
+- Atmosphere CFW on Switch
+- Tesla Menu
 
 ## Title ID
 
 Sysmodule: `010000000000BC01`
 
-При конфликте с другим sysmodule измени в `sysmodule/sysmodule.json`.
+If there is a conflict with another sysmodule, change it in `sysmodule/sysmodule.json`.

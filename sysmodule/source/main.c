@@ -5,7 +5,7 @@
 
 #define INNER_HEAP_SIZE 0x20000
 #define CONFIG_PATH "sdmc:/config/charge-guard/config.ini"
-#define POLL_INTERVAL_NS 30000000000ULL
+#define POLL_INTERVAL_NS 10000000000ULL
 
 u32 __nx_applet_type = AppletType_None;
 u32 __nx_fs_num_sessions = 1;
