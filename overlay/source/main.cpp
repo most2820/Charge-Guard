@@ -1,9 +1,11 @@
 #define TESLA_INIT_IMPL
 #include <tesla.hpp>
-#include <exception_wrap.hpp>
 
 #include <switch.h>
+#include <cstdio>
+#include <cstring>
 #include <string>
+#include <sys/stat.h>
 
 #define CONFIG_PATH "sdmc:/config/charge-guard/config.ini"
 
@@ -14,15 +16,39 @@ static int s_currentLimit = 100;
 static bool s_initialized = false;
 
 static void loadConfig(void) {
-    std::string val = ult::parseValueFromIniSection(CONFIG_PATH, "ChargeGuard", "ChargeLimit");
-    if (!val.empty())
-        s_currentLimit = std::stoi(val);
-    else
-        s_currentLimit = 100;
+    FILE *f = fopen(CONFIG_PATH, "r");
+    if (!f) { s_currentLimit = 100; return; }
+
+    char line[64];
+    while (fgets(line, sizeof(line), f)) {
+        line[strcspn(line, "\r\n")] = 0;
+        if (line[0] == '[' || line[0] == 0) continue;
+
+        char *eq = strchr(line, '=');
+        if (!eq) continue;
+        *eq = 0;
+
+        char *key = line;
+        char *val = eq + 1;
+        while (*key == ' ') key++;
+        while (*val == ' ') val++;
+
+        if (strcmp(key, "ChargeLimit") == 0)
+            s_currentLimit = atoi(val);
+    }
+    fclose(f);
 }
 
 static void saveConfig(void) {
-    ult::setIniFileValue(CONFIG_PATH, "ChargeGuard", "ChargeLimit", std::to_string(s_currentLimit));
+    mkdir("sdmc:/config", 0777);
+    mkdir("sdmc:/config/charge-guard", 0777);
+
+    FILE *f = fopen(CONFIG_PATH, "w");
+    if (!f) return;
+    fprintf(f, "[ChargeGuard]\n");
+    fprintf(f, "ChargeLimit = %d\n", s_currentLimit);
+    fclose(f);
+    fsdevCommitDevice("sdmc");
 }
 
 class GuiMain : public tsl::Gui {
@@ -45,7 +71,7 @@ public:
             "80%", "85%", "90%", "95%", "100%"
         });
         bar->setProgress(initialIndex);
-        bar->setValueChangedListener([](u16 val) {
+        bar->setValueChangedListener([](u8 val) {
             if (val < s_limitCount) {
                 s_currentLimit = s_limitValues[val];
                 saveConfig();
