@@ -5,7 +5,7 @@ Sysmodule и оверлей для Nintendo Switch (Atmosphère), огранич
 ## Возможности
 
 - Ограничение заряда: 80%, 85%, 90%, 95%, 100%
-- Настройка через оверлей
+- Настройка через оверлей (Ultrahand / Tesla)
 - Автоматический контроль в фоне (sysmodule)
 - Автозапуск при загрузке консоли
 
@@ -17,7 +17,7 @@ Sysmodule и оверлей для Nintendo Switch (Atmosphère), огранич
 bash build_all.sh
 ```
 
-2. Скопируй содержимое out/ в корень SD-карты:
+2. Скопируй содержимое `out/` в корень SD-карты:
 
 ```
 SD:/
@@ -44,7 +44,7 @@ SD:/
 ├── overlay/
 │   ├── Makefile              Сборка оверлея
 │   ├── source/main.cpp       Интерфейс оверлея
-│   └── libs/libtesla/        Tesla фреймворк
+│   └── libs/libultrahand/    Tesla / Ultrahand фреймворк
 ├── sysmodule/
 │   ├── Makefile              Сборка sysmodule
 │   ├── source/main.c         Фоновый процесс
@@ -55,7 +55,7 @@ SD:/
 
 - devkitPro (devkitA64 + libnx)
 - Atmosphère CFW на Switch
-- Tesla Menu
+- Ultrahand Overlay или Tesla Menu
 
 ## Title ID
 

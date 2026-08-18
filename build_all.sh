@@ -10,11 +10,12 @@ OUT="$PROJDIR/out"
 rm -rf "$OUT"
 
 echo "=== Building overlay ==="
+rm -rf /tmp/_overlay
 cp -r "$PROJDIR/overlay" /tmp/_overlay
 rm -rf /tmp/_overlay/build
 make -C /tmp/_overlay -j4
 mkdir -p "$OUT/switch/.overlays"
-cp /tmp/_overlay/_overlay.ovl "$OUT/switch/.overlays/ChargeGuard.ovl"
+cp /tmp/_overlay/ChargeGuard.ovl "$OUT/switch/.overlays/ChargeGuard.ovl"
 rm -rf /tmp/_overlay
 
 echo "=== Building sysmodule ==="

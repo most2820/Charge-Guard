@@ -5,7 +5,7 @@ Sysmodule and overlay for Nintendo Switch (Atmosphere) that limit the maximum ba
 ## Features
 
 - Charge limit: 80%, 85%, 90%, 95%, 100%
-- Configuration via overlay
+- Configuration via overlay (Ultrahand / Tesla)
 - Automatic background control (sysmodule)
 - Auto-start on console boot
 
@@ -44,7 +44,7 @@ SD:/
 ├── overlay/
 │   ├── Makefile              Overlay build file
 │   ├── source/main.cpp       Overlay UI
-│   └── libs/libtesla/        Tesla framework
+│   └── libs/libultrahand/    Tesla / Ultrahand framework
 ├── sysmodule/
 │   ├── Makefile              Sysmodule build file
 │   ├── source/main.c         Background process
@@ -55,7 +55,7 @@ SD:/
 
 - [devkitPro](https://devkitpro.org/) (devkitA64 + libnx)
 - Atmosphere CFW on Switch
-- Tesla Menu
+- Ultrahand Overlay или Tesla Menu
 
 ## Title ID
 

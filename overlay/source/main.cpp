@@ -11,7 +11,6 @@ static const int s_limitValues[] = { 80, 85, 90, 95, 100 };
 static constexpr int s_limitCount = 5;
 
 static int s_currentLimit = 100;
-static bool s_initialized = false;
 
 static void loadConfig(void) {
     std::string val = ult::parseValueFromIniSection(CONFIG_PATH, "ChargeGuard", "ChargeLimit");
@@ -28,7 +27,7 @@ static void saveConfig(void) {
 class GuiMain : public tsl::Gui {
 public:
     virtual tsl::elm::Element* createUI() override {
-        auto frame = new tsl::elm::OverlayFrame("Charge Guard", "v1.0.0");
+        auto frame = new tsl::elm::OverlayFrame("Charge Guard", APP_VERSION);
         auto list  = new tsl::elm::List();
 
         list->addItem(new tsl::elm::CategoryHeader("Charge Limit"));
@@ -74,21 +73,16 @@ public:
 
 class OverlayMain : public tsl::Overlay {
 public:
+    // libtesla/libultrahand __appInit already initialized fs, hid, pl, pmdmnt, hid:sys, set:sys, fsdevMountSdmc
     virtual void initServices() override {
-        fsdevMountSdmc();
-        psmInitialize();
-        i2cInitialize();
-        hidInitialize();
-        s_initialized = true;
+        tsl::hlp::doWithSmSession([]{
+            psmInitialize();
+        });
         loadConfig();
     }
 
     virtual void exitServices() override {
-        s_initialized = false;
-        hidExit();
-        i2cExit();
         psmExit();
-        fsdevUnmountDevice("sdmc");
     }
 
     virtual void onShow() override {}
